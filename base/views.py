@@ -37,7 +37,7 @@ class UploadVideoApi(APIView):
         
         
 class LatestVideoApi(APIView):
-    def get(self, reqeust):
+    def get(self, request):
         video = Video.objects.latest()
         video = VideoSerializer(video)
         return Response({
