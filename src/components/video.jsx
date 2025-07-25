@@ -1,32 +1,41 @@
 import React, { use, useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import axios from 'axios';
-const BASE_URL = 'http://127.0.0.1:8000/'
+const BASE_URL = 'https://h3rl84qr-8000.inc1.devtunnels.ms/'
+// const BASE_URL = 'http://127.0.0.1:8000/'   
 
 const VideoPlayer = () => {
   const videoRef = useRef(null);
   const [videoUid,setVideoUid] = useState()
-
+  var token = ''
   useEffect(() => {
   const video = videoRef.current;
   const hls = new Hls();
-
+  var videoUrl = ''
   axios.get(BASE_URL + 'api/latest-video/')
     .then((res) => {
-      const videoUrl = `${BASE_URL}media/hls_videos/${res.data.data.uid}/playlist.m3u8`;
+      axios.get(BASE_URL + `api/generate-token/${res.data.data.uid}/`)
+      .then((res) => {
+        token = res.data.token
+        videoUrl = `${BASE_URL}api/stream-video/${token}/playlist.m3u8`;
+        if (Hls.isSupported()) {
+          hls.loadSource(videoUrl);
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            video.play();
+          });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = videoUrl;
+          video.addEventListener('loadedmetadata', () => {
+            video.play();
+          });
+        }
+      })
+      .catch((e) => {
+        console.log('Error fetching token:', e);
+      });
       console.log(videoUrl)
-      if (Hls.isSupported()) {
-        hls.loadSource(videoUrl);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play();
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = videoUrl;
-        video.addEventListener('loadedmetadata', () => {
-          video.play();
-        });
-      }
+      
     })
     .catch((e) => {
       console.log('Error fetching video UID:', e);
