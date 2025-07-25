@@ -5,6 +5,5 @@ urlpatterns = [
     path('video-upload/', UploadVideoApi.as_view()),
     path('latest-video/', LatestVideoApi.as_view()),
     path('generate-token/<str:uid>/', generate_token_view),
-    path('stream-video/<str:filename>/<str:token>', stream_video,name='stream-video'),
-
+    path('stream-video/<str:token>/<str:filename>', stream_video,name='stream-video'),
 ]

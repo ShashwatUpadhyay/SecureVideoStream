@@ -52,13 +52,17 @@ from django.utils.encoding import smart_str
 @api_view(['GET'])
 def stream_video(request, filename, token):
     # Verify token and get video UID
+    print(filename)
+    print(token)
     video_uid = verify_signed_token(token)
+    print(video_uid)
     if not video_uid:
         return HttpResponseForbidden("Invalid or expired token")
 
     # Expected path
-    path = os.path.join(settings.MEDIA_ROOT, 'hls_video', video_uid, filename)
-
+    path = os.path.join(settings.MEDIA_ROOT, 'hls_videos', video_uid, filename)
+    
+    print(not os.path.exists(path))
     if not os.path.exists(path):
         return HttpResponseForbidden("File not found")
 
