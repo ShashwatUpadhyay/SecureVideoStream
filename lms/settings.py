@@ -53,16 +53,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS: True
+CORS_ALLOW_ALL_ORIGINS: False
 # CORS_ALLOW_HEADERS =  ['*']
 CORS_ALLOW_HEADERS =  ['localhost', 'h3rl84qr-5173.inc1.devtunnels.ms']
 CORS_ALLOW_CREDENTIALS: True
 CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",  # Vite dev server
+    "http://h3rl84qr-5173.inc1.devtunnels.ms",  # Vite dev server
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://h3rl84qr-5173.inc1.devtunnels.ms",
 ]
 
 ROOT_URLCONF = 'lms.urls'
