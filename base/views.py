@@ -8,6 +8,12 @@ from django.http import FileResponse, HttpResponseForbidden,JsonResponse
 from utils.signed_url import verify_signed_token,generate_signed_token
 import os
 from lms import settings
+from django.conf import settings
+from django.utils.encoding import smart_str
+from lms.settings import CSRF_TRUSTED_ORIGINS
+from rest_framework.permissions import IsAuthenticated
+
+
 # Create your views here.
 
 
@@ -37,25 +43,29 @@ class UploadVideoApi(APIView):
         
         
 class LatestVideoApi(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         video = Video.objects.latest()
         video = VideoSerializer(video)
+        print(request.user)
         return Response({
             "status" : True,
             "message" : "Video Fetched!",
             "data" : video.data
         })
     
-from django.conf import settings
-from django.utils.encoding import smart_str
 
 @api_view(['GET'])
 def stream_video(request, filename, token):
     # Verify token and get video UID
-    print(filename)
-    print(token)
+    if not request.META.get('HTTP_REFERER') in CSRF_TRUSTED_ORIGINS:
+            print('Thrown out')
+            return HttpResponseForbidden('You not allowed')
+        
     video_uid = verify_signed_token(token)
-    print(video_uid)
+    
+    print("Accessed Video UID: ", video_uid)
+    
     if not video_uid:
         return HttpResponseForbidden("Invalid or expired token")
 
@@ -63,6 +73,7 @@ def stream_video(request, filename, token):
     path = os.path.join(settings.MEDIA_ROOT, 'hls_videos', video_uid, filename)
     
     print(not os.path.exists(path))
+    
     if not os.path.exists(path):
         return HttpResponseForbidden("File not found")
 

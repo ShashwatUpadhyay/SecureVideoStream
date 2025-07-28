@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     "corsheaders",
+    'rest_framework_simplejwt',
     'base',
 ]
 
@@ -51,20 +54,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'base.middleware.VideoMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS: False
 # CORS_ALLOW_HEADERS =  ['*']
-CORS_ALLOW_HEADERS =  ['localhost', 'h3rl84qr-5173.inc1.devtunnels.ms']
+CORS_ALLOW_HEADERS =  ['localhost', 'h3rl84qr-5173.inc1.devtunnels.ms','9319j0b7-8000.inc1.devtunnels.ms']
 CORS_ALLOW_CREDENTIALS: True
 CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",  # Vite dev server
-    "http://h3rl84qr-5173.inc1.devtunnels.ms",  # Vite dev server
+    "http://localhost:5173/",  # Vite dev server
+    "https://9319j0b7-5173.inc1.devtunnels.ms/",  # Vite dev server
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "http://h3rl84qr-5173.inc1.devtunnels.ms",
+    "https://9319j0b7-5173.inc1.devtunnels.ms",
 ]
 
 ROOT_URLCONF = 'lms.urls'
@@ -145,3 +149,24 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'authorization',
+]
