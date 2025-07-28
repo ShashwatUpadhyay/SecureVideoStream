@@ -2,7 +2,7 @@ import React, { use, useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import axios from 'axios';
 
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzNzI3Njc3LCJpYXQiOjE3NTM3MjY3NzcsImp0aSI6IjlkNDA1NWE0NmIzMjQyMzg5MmM3NTE3ZGY3N2E2NTcwIiwidXNlcl9pZCI6IjEifQ.pbxbZ7KoVhd3sDmSlekthDPSgjdt_0IiIFunJ2zv9cU'
+const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzNzI4NzE5LCJpYXQiOjE3NTM3Mjc4MTksImp0aSI6ImIzZjBhNWRkMTRiNTQ3OWM5NWYxMGEwZGExZGMxOWE0IiwidXNlcl9pZCI6IjEifQ.aXA_vaitcmdVHsB03ZJIEVZMFNbiv00ZHXJ0xtCYKiM'
 const BASE_URL = 'https://9319j0b7-8000.inc1.devtunnels.ms/'
 // const BASE_URL = 'http://127.0.0.1:8000/'
 
@@ -16,11 +16,11 @@ const VideoPlayer = () => {
   const hls = new Hls();
   console.log("Trying fetching  latest-video")
   axios.get(BASE_URL + 'api/latest-video/',{
-  headers: {
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  },
-  }
-)
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+      }
+    )
     .then((res) => {
       console.log("Video Fetched: ", res.data.data.uid);
       axios.get(`${BASE_URL}api/generate-token/${res.data.data.uid}/`).then((r) => {
