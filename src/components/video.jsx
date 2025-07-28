@@ -1,13 +1,15 @@
 import React, { use, useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import axios from 'axios';
+
 const BASE_URL = 'https://9319j0b7-8000.inc1.devtunnels.ms/'
 // const BASE_URL = 'http://127.0.0.1:8000/'
+
 
 const VideoPlayer = () => {
   const videoRef = useRef(null);
   const [videoUid,setVideoUid] = useState()
-
+  var token = ''
   useEffect(() => {
   const video = videoRef.current;
   const hls = new Hls();
@@ -20,6 +22,7 @@ const VideoPlayer = () => {
         const videoUrl = `${BASE_URL}api/stream-video/${r.data.token}/playlist.m3u8`;
         // const videoUrl = `${BASE_URL}media/hls_videos/${res.data.data.uid}/playlist.m3u8`;
         console.log("setup done: ",videoUrl)
+
         if (Hls.isSupported()) {
           hls.loadSource(videoUrl);
           hls.attachMedia(video);
