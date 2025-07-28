@@ -60,7 +60,7 @@ def stream_video(request, filename, token):
     # Verify token and get video UID
     if not request.META.get('HTTP_REFERER') in CSRF_TRUSTED_ORIGINS:
             print('Thrown out')
-            return HttpResponseForbidden('You not allowed')
+            return HttpResponseForbidden('Request Forbidden')
         
     video_uid = verify_signed_token(token)
     
