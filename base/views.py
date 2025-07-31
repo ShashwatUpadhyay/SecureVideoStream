@@ -72,7 +72,7 @@ def stream_video(request, filename, token):
     # Expected path
     path = os.path.join(settings.MEDIA_ROOT, 'hls_videos', video_uid, filename)
     
-    print(not os.path.exists(path))
+    print("Video path exists: ", os.path.exists(path))
     
     if not os.path.exists(path):
         return HttpResponseForbidden("File not found")
