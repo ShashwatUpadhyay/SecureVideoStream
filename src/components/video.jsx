@@ -2,9 +2,9 @@ import React, { use, useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import axios from 'axios';
 
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzNzI4NzE5LCJpYXQiOjE3NTM3Mjc4MTksImp0aSI6ImIzZjBhNWRkMTRiNTQ3OWM5NWYxMGEwZGExZGMxOWE0IiwidXNlcl9pZCI6IjEifQ.aXA_vaitcmdVHsB03ZJIEVZMFNbiv00ZHXJ0xtCYKiM'
-const BASE_URL = 'https://9319j0b7-8000.inc1.devtunnels.ms/'
-// const BASE_URL = 'http://127.0.0.1:8000/'
+const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzOTg1NTQyLCJpYXQiOjE3NTM4OTkxNDIsImp0aSI6IjdhZDk0YWRiMjM2MTQxZTM4NzI1MmRkMTE3OTMxZjdmIiwidXNlcl9pZCI6IjEifQ.av1FBqwt8t2j2BRtPUtnFovQbX1YoXVZfJlqi9kGL1M'
+// const BASE_URL = 'https://9319j0b7-8000.inc1.devtunnels.ms/'
+const BASE_URL = 'http://127.0.0.1:8000/'
 
 
 const VideoPlayer = () => {
